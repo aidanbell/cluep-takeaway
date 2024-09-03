@@ -21,7 +21,8 @@ body {
 }
 
 main {
-  height: 600px;
+  position: relative;
+  height: 827px;
   width: 765px;
   margin-top: auto;
   margin-bottom: 0;
@@ -34,6 +35,23 @@ main {
 
 .content {
   padding: 0 70px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.menu-open-icon {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+}
+
+.messages {
+  height: 700px;
+  width: 610px;
 }
 
 .send-message {
