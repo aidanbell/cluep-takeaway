@@ -49,6 +49,10 @@ main {
   right: 20px;
 }
 
+.tooltip {
+  height: 30px;
+}
+
 .menu-open-icon {
   position: absolute;
   top: 50%;
