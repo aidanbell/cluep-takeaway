@@ -1,12 +1,11 @@
-import Image from "next/image";
-
 import { SearchIcon, PlusIcon, SendMessageIcon, ChevronRightIcon } from "./ui/Icons";
+import Sidenav from "./ui/Sidenav";
 
 export default function Home() {
   return (
     <main className="flex flex-col mx-auto mt-auto mb-0 center justify-between rounded-lg border border-gray-300">
+      <Sidenav />
       <SearchIcon size={30} className="search-icon text-gray-300" />
-      <ChevronRightIcon size={30} className="menu-open-icon text-gray-300" />
       <div className="content flex flex-col">
 
         <div className="messages"></div>

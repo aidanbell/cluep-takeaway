@@ -16,6 +16,10 @@
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
 
 }
@@ -59,6 +63,14 @@ main {
   height: 55px;
   margin: 16px 0;
   padding: 0 32px;
+}
+
+.side-nav {
+  height: 827px;
+}
+
+.nav-item {
+  width: 95%;
 }
 
 @layer utilities {
