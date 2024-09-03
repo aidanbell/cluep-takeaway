@@ -30,6 +30,8 @@ main {
   width: 765px;
   margin-top: auto;
   margin-bottom: 0;
+  overflow-y: hidden;
+  scrollbar-width: none;
 }
 
 .task-button {
@@ -55,7 +57,7 @@ main {
 
 .messages {
   height: 700px;
-  width: 610px;
+  /* width: 610px; */
 }
 
 .send-message {
@@ -67,11 +69,15 @@ main {
 
 .side-nav {
   height: 827px;
+  white-space: nowrap;  
+  width: 100%;
+  min-width: fit-content;
 }
 
 .nav-item {
   width: 95%;
 }
+
 
 @layer utilities {
   .text-balance {
