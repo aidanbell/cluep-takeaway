@@ -1,3 +1,4 @@
+import Image from "next/image";
 import PlusSVG from "@/public/Icons/add_black_24dp.svg";
 
 export function SearchIcon({ className, size }: { className: string, size: number }) {
@@ -85,6 +86,22 @@ export function ChevronRightIcon({ className, size }: { className: string, size:
     </div>
   );
 }
+
+export function SideNavCloseIcon({ className, size, hover }: { className: string, size: number, hover: boolean }) {
+  return (
+    <div className="group flex relative sidebar-close-icon">
+      <Image
+        src={`/Icons/Sidebar-${hover ? "2" : "1"}.png`}
+        alt="Close Sidebar"
+        width={size}
+        height={size}
+        className={className}
+      />
+      <ToolTip text="Close Sidebar" pos="left" className="sidebar-close-tooltip"/>
+    </div>
+  );
+};
+
 // tooltip group-hover:opacity-100 transition-opacity opacity-0 
 export function ToolTip({ text, pos, className }: { text: string, pos: "left" | "right" | "top" | "bottom", className?: string }) {
   function drawArrow() {
@@ -102,8 +119,8 @@ export function ToolTip({ text, pos, className }: { text: string, pos: "left" | 
 
   return (
     <div
-      className={`tooltip group-hover:flex transition-opacity absolute hidden items-center justify-center
-      ${className}
+      className={`tooltip flex opacity-0 group-hover:opacity-100 transition-opacity group-hover:delay-200 duration200 absolute items-center justify-center
+      ${className ? className : ""}
       ${pos === "left" || pos === "right" ? "flex-row" : "flex-col"} 
       ${pos === "left" ? "flex-row-reverse -right-32" : ""} 
       ${pos === "right" ? "-left-20" : ""}
@@ -111,22 +128,13 @@ export function ToolTip({ text, pos, className }: { text: string, pos: "left" | 
       <div className="bg-gray-800 p-1.5 rounded-lg flex-1 text-white">
         {text}
       </div>
-      <div className={`w-3 inline-block ${pos !== "top" ? "overflow-hidden" : ""}`}>
+      <div
+        className={`w-3 inline-block ${
+          pos !== "top" ? "overflow-hidden" : ""
+        }`}>
         {/* <div className="h-4 bg-gray-800 rotate-45 transform origin-top-left rounded-sm"></div> */}
         <div className={drawArrow()}></div>
       </div>
     </div>
-
-    // TOP:
-    // <div className="h-2 bg-gray-800 rotate-45 transform origin-top-right">
-
-    // BOTTOM:
-    // <div className="h-2 bg-gray-800 rotate-45 transform origin-bottom-right">
-
-    // LEFT: (Arrow pointing right)
-    // <div className="h-4 bg-gray-800 rotate-45 transform origin-bottom-right rounded-sm"></div>
-
-    // RIGHT: (Arrow pointing left)
-    // <div className="h-4 bg-gray-800 rotate-45 transform origin-top-left rounded-sm"></div>
   );
 }

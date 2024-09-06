@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
-import { ChevronRightIcon } from "@/app/ui/Icons";
+import { ChevronRightIcon, SideNavCloseIcon } from "@/app/ui/Icons";
 
 import { NavItem } from "./Buttons";
 import { ToolTip } from "@/app/ui/Icons";
@@ -39,77 +38,64 @@ export default function Sidenav() {
 
   return (
     <>
-      {!showing && (
-        <button
-          onClick={() => setShowing(true)}
-          className="menu-open-icon text-gray-300">
-          <ChevronRightIcon
-            size={30}
-            className="text-gray-300 hover:text-black"
-          />
-        </button>
-      )}
-      {showing && (
-        <section
-          onClick={() => setShowing(false)}
-          className="fixed inset-0 w-screen h-screen"></section>
-      )}
       <div
-        className={`h-full bg-black rounded-l-lg text-gray-300 transition-all duration-300 z-10 flex-shrink-0 ${
+        className={`h-full bg-black rounded-l-lg text-gray-300 transition-all duration-500 z-10 flex-shrink-0 ${
           showing ? "w-[180px]" : "w-0"
         }`}>
-        {showing && (
-          <>
-            <div
-              onClick={() => setShowing(false)}
-              onMouseEnter={() => setIconHover(true)}
-              onMouseLeave={() => setIconHover(false)}
-              className={`group relative sidebar-action-icon cursor-pointer absolute z-10 transition-all ease-in-out w-6 h-6 ${
-                showing ? "ml-0" : "-ml-52"
-              }`}>
-              <Image
-                src={`/Icons/Sidebar-${iconHover ? "2" : "1"}.png`}
-                alt="Sidebar"
-                width={iconHover ? 6 : 5}
-                height={iconHover ? 6 : 5}
-              />
-              {iconHover && (
-                <ToolTip
-                  text="Close Sidebar"
-                  pos="left"
+          <div
+            onClick={() => {
+              console.log("clicked");
+              console.log(showing);
+              setShowing(!showing);
+            }}
+            onMouseEnter={() => setIconHover(true)}
+            onMouseLeave={() => setIconHover(false)}
+            className={`group sidebar-action-icon cursor-pointer absolute top-1/2 z-10 transition-translate duration-500 ease-in-out w-6 h-6 ${
+              showing ? "translate-x-48" : "transform:none"
+            }`}>
+              {showing ? (
+                <SideNavCloseIcon
+                  size={iconHover ? 7 : 5}
+                  hover={iconHover}
                   className="close-sidebar-tooltip"
                 />
-              )}
-            </div>
-            <nav
-            // onMouseLeave={() => setShowing(false)}
-            // className={`overflow-hidden z-10 transition-all ease-in-out side-nav flex flex-col bg-black rounded-l-lg items-start text-gray-300 ${
-            //   showing ? "ml-0" : "-ml-48"
-            // }`}>
-            >
-              {navItems.map((item, index) => (
-                <NavItem
-                  key={index}
-                  icon={item.icon}
-                  text={item.text}
-                  active={item.active}
-                  navOpen={showing}
+              ) : (
+                <ChevronRightIcon
+                  size={30}
+                  className="text-gray-300 hover:text-black"
                 />
-              ))}
-              {/* <NavItem icon="Profile" text="Profile" active={false} />
-              <NavItem icon="Chats" text="Chats" active={true} />
-              <NavItem icon="Sent" text="Sent" active={false} />
-              <NavItem icon="Draft" text="Draft" active={false} />
-              <NavItem icon="Spam" text="Spam" active={false} />
-              <NavItem icon="Trash" text="Trash" active={false} />
-              <NavItem icon="ConnectApps" text="Connect Apps" active={false} />
-              <div className="lower-nav w-full flex flex-col justify-self-end items-start mt-auto">
-                <NavItem icon="Help" text="Help" active={false} />
-                <NavItem icon="Rate" text="Rate" active={false} />
-                <NavItem icon="About" text="About" active={false} />
-              </div> */}
-            </nav>
-          </>
+              )}
+          </div>
+        {showing && (
+          <nav
+          // onMouseLeave={() => setShowing(false)}
+          // className={`overflow-hidden z-10 transition-all ease-in-out side-nav flex flex-col bg-black rounded-l-lg items-start text-gray-300 ${
+          //   showing ? "ml-0" : "-ml-48"
+          // }`}>
+          className="overflow-hidden flex flex-col h-full"
+          >
+            {navItems.map((item, index) => (
+              <NavItem
+                key={index}
+                icon={item.icon}
+                text={item.text}
+                active={item.active}
+                navOpen={showing}
+              />
+            ))}
+            {/* <NavItem icon="Profile" text="Profile" active={false} />
+            <NavItem icon="Chats" text="Chats" active={true} />
+            <NavItem icon="Sent" text="Sent" active={false} />
+            <NavItem icon="Draft" text="Draft" active={false} />
+            <NavItem icon="Spam" text="Spam" active={false} />
+            <NavItem icon="Trash" text="Trash" active={false} />
+            <NavItem icon="ConnectApps" text="Connect Apps" active={false} />
+            <div className="lower-nav w-full flex flex-col justify-self-end items-start mt-auto">
+              <NavItem icon="Help" text="Help" active={false} />
+              <NavItem icon="Rate" text="Rate" active={false} />
+              <NavItem icon="About" text="About" active={false} />
+            </div> */}
+          </nav>
         )}
       </div>
     </>

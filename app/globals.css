@@ -48,11 +48,6 @@ main {
   height: 30px;
 }
 
-.menu-open-icon {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-}
 
 .messages {
   height: 700px;
@@ -69,36 +64,23 @@ nav .open {
 }
 
 .send-message {
-
   height: 55px;
   margin: 16px 0;
   padding: 0 32px;
 }
 
-.side-nav {
-  /* height: 827px;
-  white-space: nowrap;  
-  width: 100%;
-  min-width: fit-content; */
+nav .nav-item:nth-last-child(4) {
+  margin-top: auto;
 }
-/* 
-.nav-item {
-  width: 95%;
-} */
 
 .icons-hover {
   position: relative;
 }
 
-.sidebar-action-icon {
-  position: absolute;
-  top: 50%;
-  left: 184px;
+.sidebar-close-tooltip {
+  top: -0.1em;
 }
 
-.close-sidebar-tooltip {
-  top: -0.25em;
-}
 
 .attachment-tooltip {
   top: -2.25em;
