@@ -1,10 +1,18 @@
+'use client';
+
+import { useState } from "react";
+
 import Image from "next/image";
-import PlusSVG from "@/public/Icons/add_black_24dp.svg";
 
 export function SearchIcon({ className, size }: { className: string, size: number }) {
+  const [hover, setHover] = useState(false);
   return (
-    <div className="group flex relative search-icon">
-      <ToolTip text="Search" pos="right" />
+    <div 
+      className="flex relative search-icon"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      >
+      <ToolTip text="Search" pos="right" visible={hover}/>
       <svg
         className={className}
         xmlns="http://www.w3.org/2000/svg"
@@ -26,9 +34,18 @@ export function SearchIcon({ className, size }: { className: string, size: numbe
 }
 
 export function PlusIcon({ className, size }: { className: string, size: number }) {
+  const [hover, setHover] = useState(false);
   return (
-    <div className="group flex relative plus-icon">
-      <ToolTip text="Attachment" pos="top" className="attachment-tooltip" />
+    <div
+      className="group flex relative plus-icon"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}>
+      <ToolTip
+        text="Attachment"
+        pos="top"
+        className="attachment-tooltip"
+        visible={hover}
+      />
       <svg
         className={className}
         xmlns="http://www.w3.org/2000/svg"
@@ -44,8 +61,12 @@ export function PlusIcon({ className, size }: { className: string, size: number 
 }
 
 export function SendMessageIcon({ className, size }: { className: string, size: number }) {
+  const [hover, setHover] = useState(false);
   return (
-    <div className="group flex relative send-message-icon">
+    <div
+      className="group flex relative send-message-icon"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}>
       <svg
         className={className}
         fill="currentColor"
@@ -64,14 +85,18 @@ export function SendMessageIcon({ className, size }: { className: string, size: 
           <path d="M21,2H11c-5,0-9,4-9,9v10c0,5,4,9,9,9h10c5,0,9-4,9-9V11C30,6,26,2,21,2z M20.7,15.7C20.5,15.9,20.3,16,20,16 s-0.5-0.1-0.7-0.3L17,13.4V22c0,0.6-0.4,1-1,1s-1-0.4-1-1v-8.6l-2.3,2.3c-0.4,0.4-1,0.4-1.4,0s-0.4-1,0-1.4l4-4 c0.1-0.1,0.2-0.2,0.3-0.2c0.2-0.1,0.5-0.1,0.8,0c0.1,0.1,0.2,0.1,0.3,0.2l4,4C21.1,14.7,21.1,15.3,20.7,15.7z"></path>
         </g>
       </svg>
-      <ToolTip text="Send Now" pos="top" />
+      <ToolTip text="Send Now" pos="top" visible={hover} />
     </div>
   );
 }
 
 export function ChevronRightIcon({ className, size }: { className: string, size: number }) {
+  const [hover, setHover] = useState(false);
   return (
-    <div className="group flex relative chevron-right-icon">
+    <div
+      className="group flex relative chevron-right-icon"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}>
       <svg
         className={className}
         xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +107,7 @@ export function ChevronRightIcon({ className, size }: { className: string, size:
         <path d="M0 0h24v24H0V0z" fill="none" />
         <path d="M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z" />
       </svg>
-      <ToolTip text="Open Sidebar" pos="left" />
+      <ToolTip text="Open Sidebar" pos="left" visible={hover} />
     </div>
   );
 }
@@ -97,13 +122,18 @@ export function SideNavCloseIcon({ className, size, hover }: { className: string
         height={size}
         className={className}
       />
-      <ToolTip text="Close Sidebar" pos="left" className="sidebar-close-tooltip"/>
+      <ToolTip
+        text="Close Sidebar"
+        pos="left"
+        className="sidebar-close-tooltip"
+        visible={hover}
+      />
     </div>
   );
 };
 
 // tooltip group-hover:opacity-100 transition-opacity opacity-0 
-export function ToolTip({ text, pos, className }: { text: string, pos: "left" | "right" | "top" | "bottom", className?: string }) {
+export function ToolTip({ text, pos, className, visible }: { text: string, pos: "left" | "right" | "top" | "bottom", className?: string, visible: boolean }) {
   function drawArrow() {
     switch (pos) {
       case "left":
@@ -119,7 +149,8 @@ export function ToolTip({ text, pos, className }: { text: string, pos: "left" | 
 
   return (
     <div
-      className={`tooltip flex opacity-0 group-hover:opacity-100 transition-opacity group-hover:delay-200 duration200 absolute items-center justify-center
+      className={`tooltip flex absolute items-center justify-center
+      ${visible ? "opacity-100 delay-200 visible" : "opacity-0 delay-0 invisible"}
       ${className ? className : ""}
       ${pos === "left" || pos === "right" ? "flex-row" : "flex-col"} 
       ${pos === "left" ? "flex-row-reverse -right-32" : ""} 
