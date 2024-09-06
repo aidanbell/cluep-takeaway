@@ -1,14 +1,14 @@
-import TaskButton from "./ui/Buttons";
+import { TaskButton } from "./ui/Buttons";
 import { SearchIcon, PlusIcon, SendMessageIcon, ChevronRightIcon } from "./ui/Icons";
 import Sidenav from "./ui/Sidenav";
 
 export default function Home() {
   return (
-    <main className="flex flex-row relative mx-auto mt-auto mb-0 center justify-between rounded-lg border border-gray-300">
+    <main className="flex flex-row relative mx-auto mt-auto mb-0 center justify-between rounded-lg border overflow-hidden border-gray-300">
       <Sidenav />
-      <SearchIcon size={30} className="text-gray-300 hover:text-black" />
-      <div className="content flex flex-col shrink">
-        <div className="messages flex items-end justify-end">
+      <div className="content flex flex-col transition-all duration-300 overflow-hidden">
+        <SearchIcon size={30} className="text-gray-300 hover:text-black" />
+        <div className="messages w-full flex flex-grow items-end justify-end">
           <div className="message flex items-baseline justify-end">
             <div className="bg-blue-400 p-4 my-6 rounded-lg flex-1">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
@@ -22,13 +22,13 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="tasks flex flex-row justify-between text-gray-300">
+        <div className="tasks w-full flex flex-row flex-grow justify-between text-gray-300">
           <TaskButton text="Task" />
           <TaskButton text="Task" />
           <TaskButton text="Task" />
           <TaskButton text="Task" />
         </div>
-        <div className="send-message w-full rounded-full border border-gray-300 flex flex-row justify-between items-center text-gray-300">
+        <div className="send-message w-full rounded-full border border-gray-300 flex flex-row flex-grow-0 justify-between items-center text-gray-300">
           <PlusIcon size={32} className="text-gray-300 hover:text-black" />
           <input
             type="text"

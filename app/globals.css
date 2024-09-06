@@ -25,13 +25,8 @@ body {
 }
 
 main {
-  position: relative;
   height: 827px;
   width: 765px;
-  margin-top: auto;
-  margin-bottom: 0;
-  overflow-y: hidden;
-  scrollbar-width: none;
 }
 
 .task-button {
@@ -64,23 +59,32 @@ main {
   /* width: 610px; */
 }
 
-.send-message {
+nav .open {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.tasks, .messages {
   width: 625px;
+}
+
+.send-message {
+
   height: 55px;
   margin: 16px 0;
   padding: 0 32px;
 }
 
 .side-nav {
-  height: 827px;
+  /* height: 827px;
   white-space: nowrap;  
   width: 100%;
-  min-width: fit-content;
+  min-width: fit-content; */
 }
-
+/* 
 .nav-item {
   width: 95%;
-}
+} */
 
 .icons-hover {
   position: relative;
