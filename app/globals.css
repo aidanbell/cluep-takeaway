@@ -64,7 +64,7 @@ nav .open {
 }
 
 .send-message {
-  height: 55px;
+  min-height: 55px;
   margin: 16px 0;
   padding: 0 32px;
 }
@@ -81,12 +81,10 @@ nav .nav-item:nth-last-child(4) {
   top: -0.1em;
 }
 
-
 .attachment-tooltip {
   top: -2.25em;
   left: -2em;
 }
-
 
 @layer utilities {
   .text-balance {

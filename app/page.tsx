@@ -1,5 +1,6 @@
 import { TaskButton } from "./ui/Buttons";
 import { SearchIcon, PlusIcon, SendMessageIcon, ChevronRightIcon } from "./ui/Icons";
+import MessageInput from "./ui/MessageInput";
 import Sidenav from "./ui/Sidenav";
 
 export default function Home() {
@@ -28,18 +29,22 @@ export default function Home() {
           <TaskButton text="Task" />
           <TaskButton text="Task" />
         </div>
-        <div className="send-message w-full rounded-full border border-gray-300 flex flex-row flex-grow-0 justify-between items-center text-gray-300">
+        <MessageInput />
+        {/* <div className="send-message w-full rounded-full border border-gray-300 flex flex-row flex-grow-0 justify-between items-center text-gray-300">
           <PlusIcon size={32} className="text-gray-300 hover:text-black" />
-          <input
-            type="text"
-            className="block w-full"
+          <div contentEditable className="block w-full resize-none">
+            What's on your mind?
+          </div>
+          <textarea
+            rows={1}
+            className="block w-full resize-none"
             placeholder="What's on your mind?"
           />
           <SendMessageIcon
             size={40}
             className="text-gray-300 hover:text-black"
           />
-        </div>
+        </div> */}
       </div>
     </main>
   );
