@@ -82,6 +82,19 @@ main {
   width: 95%;
 }
 
+.icons-hover {
+  position: relative;
+}
+
+.sidebar-action-icon {
+  position: absolute;
+  top: 50%;
+  left: 184px;
+}
+.close-sidebar-tooltip {
+  top: -0.25em;
+}
+
 
 @layer utilities {
   .text-balance {

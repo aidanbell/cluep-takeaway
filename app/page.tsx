@@ -37,13 +37,13 @@ export default function Home() {
           </button>
         </div>
         <div className="send-message w-full rounded-lg border border-gray-300 flex flex-row justify-between items-center text-gray-300">
-          <PlusIcon size={30} className="text-gray-300" />
+          <PlusIcon size={30} className="text-gray-300 hover:text-black" />
           <input
             type="text"
             className="block w-full"
             placeholder="What's on your mind?"
           />
-          <SendMessageIcon size={40} className="text-gray-300" />
+          <SendMessageIcon size={40} className="text-gray-300 hover:text-black" />
         </div>
       </div>
     </main>

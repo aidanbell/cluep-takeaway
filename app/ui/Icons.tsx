@@ -2,7 +2,7 @@ import PlusSVG from "@/public/Icons/add_black_24dp.svg";
 
 export function SearchIcon({ className, size }: { className: string, size: number }) {
   return (
-    <div className="group flex search-icon">
+    <div className="group flex relative search-icon">
       <ToolTip text="Search" pos="right" />
       <svg
         className={className}
@@ -41,7 +41,7 @@ export function PlusIcon({ className, size }: { className: string, size: number 
 
 export function SendMessageIcon({ className, size }: { className: string, size: number }) {
   return (
-    <div className="group flex send-message-icon">
+    <div className="group flex relative send-message-icon">
       <svg
         className={className}
         fill="currentColor"
@@ -51,23 +51,23 @@ export function SendMessageIcon({ className, size }: { className: string, size: 
         id="Icons"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="-3.2 -3.2 38.40 38.40">
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
         <g
           id="SVGRepo_tracerCarrier"
-          stroke-linecap="round"
-          stroke-linejoin="round"></g>
+          strokeLinecap="round"
+          strokeLinejoin="round"></g>
         <g id="SVGRepo_iconCarrier">
           <path d="M21,2H11c-5,0-9,4-9,9v10c0,5,4,9,9,9h10c5,0,9-4,9-9V11C30,6,26,2,21,2z M20.7,15.7C20.5,15.9,20.3,16,20,16 s-0.5-0.1-0.7-0.3L17,13.4V22c0,0.6-0.4,1-1,1s-1-0.4-1-1v-8.6l-2.3,2.3c-0.4,0.4-1,0.4-1.4,0s-0.4-1,0-1.4l4-4 c0.1-0.1,0.2-0.2,0.3-0.2c0.2-0.1,0.5-0.1,0.8,0c0.1,0.1,0.2,0.1,0.3,0.2l4,4C21.1,14.7,21.1,15.3,20.7,15.7z"></path>
         </g>
       </svg>
-      {/* <ToolTip text="Send Message" pos="top" /> */}
+      <ToolTip text="Send Now" pos="top" />
     </div>
   );
 }
 
 export function ChevronRightIcon({ className, size }: { className: string, size: number }) {
   return (
-    <div className="group flex chevron-right-icon">
+    <div className="group flex relative chevron-right-icon">
       <svg
         className={className}
         xmlns="http://www.w3.org/2000/svg"
@@ -83,31 +83,32 @@ export function ChevronRightIcon({ className, size }: { className: string, size:
   );
 }
 // tooltip group-hover:opacity-100 transition-opacity opacity-0 
-export function ToolTip({ text, pos }: { text: string, pos: "left" | "right" | "top" | "bottom" }) {
+export function ToolTip({ text, pos, className }: { text: string, pos: "left" | "right" | "top" | "bottom", className?: string }) {
   function drawArrow() {
     switch (pos) {
       case "left":
         return "h-4 bg-gray-800 rotate-45 transform origin-bottom-right rounded-sm";
       case "right":
         return "h-4 bg-gray-800 rotate-45 transform origin-top-left rounded-sm";
-      case "bottom":
-        return "h-2 bg-gray-800 rotate-45 transform origin-top-right";
       case "top":
-        return "h-2 bg-gray-800 -rotate-45 transform origin-bottom-right";
+        return "h-2 bg-gray-800 rotate-45 transform origin-top-right";
+      case "bottom":
+        return "h-3 bg-gray-800 -rotate-45 transform origin-bottom-right -mt-1";
     }
   }
 
   return (
     <div
-      className={`tooltip group-hover:opacity-100 transition-opacity opacity-0 flex ${
-        pos === "left" || pos === "right" ? "flex-row" : "flex-col"
-      } ${pos === "left" && "flex-row-reverse"} ${
-        pos === "top" && "flex-col-reverse"
-      } items-center justify-center`}>
+      className={`tooltip group-hover:flex transition-opacity absolute hidden items-center justify-center
+      ${className}
+      ${pos === "left" || pos === "right" ? "flex-row" : "flex-col"} 
+      ${pos === "left" ? "flex-row-reverse -right-32" : ""} 
+      ${pos === "right" ? "-left-20" : ""}
+      ${pos === "top" ? "-top-8 -left-7 w-24" : ""}`}>
       <div className="bg-gray-800 p-1.5 rounded-lg flex-1 text-white">
         {text}
       </div>
-      <div className="w-3 overflow-hidden inline-block">
+      <div className={`w-3 inline-block ${pos !== "top" ? "overflow-hidden" : ""}`}>
         {/* <div className="h-4 bg-gray-800 rotate-45 transform origin-top-left rounded-sm"></div> */}
         <div className={drawArrow()}></div>
       </div>
