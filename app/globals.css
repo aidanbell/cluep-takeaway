@@ -91,8 +91,14 @@ main {
   top: 50%;
   left: 184px;
 }
+
 .close-sidebar-tooltip {
   top: -0.25em;
+}
+
+.attachment-tooltip {
+  top: -2.25em;
+  left: -2em;
 }
 
 

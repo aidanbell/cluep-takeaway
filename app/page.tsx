@@ -36,8 +36,8 @@ export default function Home() {
             Task
           </button>
         </div>
-        <div className="send-message w-full rounded-lg border border-gray-300 flex flex-row justify-between items-center text-gray-300">
-          <PlusIcon size={30} className="text-gray-300 hover:text-black" />
+        <div className="send-message w-full rounded-full border border-gray-300 flex flex-row justify-between items-center text-gray-300">
+          <PlusIcon size={32} className="text-gray-300 hover:text-black" />
           <input
             type="text"
             className="block w-full"
