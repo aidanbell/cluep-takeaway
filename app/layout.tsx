@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { connectDB } from "@/app/lib/connectDB";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -14,6 +16,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  connectDB();
   return (
     <html lang="en">
       <body className={`${inter.className} h-screen flex flex-col-reverse`}>{children}</body>
