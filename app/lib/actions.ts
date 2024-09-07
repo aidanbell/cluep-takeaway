@@ -1,7 +1,7 @@
 "use server";
 import { User, Message } from "@/app/lib/models";
-import { revalidatePath } from "next/cache";
 import { connectDB } from "@/app/lib/connectDB";
+
 
 export const getAllMessages = async () => {
   try {
@@ -15,6 +15,12 @@ export const getAllMessages = async () => {
 }
 
 export const createMessage = async (message: string, user: string) => {
-  await connectDB();
-  return Message.create({ message, user });
+  try {
+    await connectDB();
+    return await Message.create({ message, user });
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 }
+

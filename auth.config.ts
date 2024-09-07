@@ -1,30 +1,35 @@
-import { connectDB } from "./connectDB";
-import { User, Message } from "./models";
-import { UserDocument } from "./definitions";
-import type { NextAuthOptions } from "next-auth";
-import credentials from "next-auth/providers/credentials";
+import { NextAuthOptions } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { connectDB } from "@/app/lib/connectDB";
+import { User } from "@/app/lib/models";
 import bcrypt from "bcrypt";
 
-export const authOptions: NextAuthOptions = {
+export const authConfig: NextAuthOptions = {
+  pages: {
+    signIn: "/login",
+  },
   providers: [
-    credentials({
+    Credentials({
       name: "Credentials",
-      id: "credentials",
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(
-        credentials,
-        req
-      ): Promise<UserDocument | null> {
+      async authorize(credentials, req) {
+        // Connect to the database
+        console.log("CALLING AUTHORIZE");
         await connectDB();
+
+        // Find the user by email
         const user = await User.findOne({ email: credentials?.email }).select(
           "+password"
         );
+
         if (!user) {
           throw new Error("No user found");
         }
+
+        // Compare the password
         const isValid = await bcrypt.compare(
           credentials?.password,
           user.password
@@ -32,19 +37,16 @@ export const authOptions: NextAuthOptions = {
         if (!isValid) {
           throw new Error("Invalid password");
         }
+
+        // Return the user object (excluding the password field)
         return user.toObject();
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/login",
-  },
   callbacks: {
-    async session(session, user) {
-      session.user = user;
+    async session({ session, token, user }) {
+      // Attach the user info to the session object
+      session.user = token;
       return session;
     },
   },

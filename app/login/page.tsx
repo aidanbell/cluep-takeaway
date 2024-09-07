@@ -1,17 +1,32 @@
 "use client";
-
-import { useActionState } from "react";
-// import { authenticate } from "@/app/lib/actions";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  // const [errorMessage, formAction, isPending] = useActionState(
-  //   authenticate,
-  //   undefined
-  // );
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    });
+    if (res?.error) {
+      setErrorMessage(res.error as string);
+      console.error(res.error as string);
+    } else if (res?.ok) {
+      router.push("/messages");
+    }
+  }
+
 
   return (
     <main className="flex mx-auto mt-auto mb-0 center items-center justify-center rounded-lg border overflow-hidden border-gray-300">
-      <form className="space-y-3 flex flex-col relative w-1/2">
+      <form onSubmit={handleSubmit} className="space-y-3 flex flex-col relative w-1/2">
         <h1 className={`mb-3 text-2xl`}>Please log in to continue.</h1>
         <div className="w-full">
           <div>
@@ -26,6 +41,7 @@ export default function LoginForm() {
                 id="email"
                 type="email"
                 name="email"
+                autoComplete="off"
                 placeholder="Enter your email address"
                 required
               />
@@ -44,6 +60,7 @@ export default function LoginForm() {
                 type="password"
                 name="password"
                 placeholder="Enter password"
+                autoComplete="off"
                 required
                 minLength={6}
               />
@@ -52,12 +69,11 @@ export default function LoginForm() {
         </div>
         <button className="mt-4 p-2 w-full bg-gray-300 rounded-lg hover:bg-gray-400 hover:text-white transition-color duration-200">Log in</button>
         <div className="flex h-8 items-end space-x-1">
-          {/* {errorMessage && (
+          {errorMessage && (
             <>
-              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
               <p className="text-red-500 text-sm">{errorMessage}</p>
             </>
-          )} */}
+          )}
         </div>
       </form>
     </main>
