@@ -31,21 +31,6 @@ export default function Home() {
           <TaskButton text="Task" />
         </div>
         <MessageInput />
-        {/* <div className="send-message w-full rounded-full border border-gray-300 flex flex-row flex-grow-0 justify-between items-center text-gray-300">
-          <PlusIcon size={32} className="text-gray-300 hover:text-black" />
-          <div contentEditable className="block w-full resize-none">
-            What's on your mind?
-          </div>
-          <textarea
-            rows={1}
-            className="block w-full resize-none"
-            placeholder="What's on your mind?"
-          />
-          <SendMessageIcon
-            size={40}
-            className="text-gray-300 hover:text-black"
-          />
-        </div> */}
       </div>
     </main>
   );

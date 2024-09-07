@@ -67,13 +67,7 @@ export default function Sidenav() {
               )}
           </div>
         {showing && (
-          <nav
-          // onMouseLeave={() => setShowing(false)}
-          // className={`overflow-hidden z-10 transition-all ease-in-out side-nav flex flex-col bg-black rounded-l-lg items-start text-gray-300 ${
-          //   showing ? "ml-0" : "-ml-48"
-          // }`}>
-          className="overflow-hidden flex flex-col h-full"
-          >
+          <nav className={`overflow-hidden flex flex-col h-full transition-color duration-200 ${iconHover ? "text-gray-500" : "text-gray-300"}`}>
             {navItems.map((item, index) => (
               <NavItem
                 key={index}
@@ -83,18 +77,6 @@ export default function Sidenav() {
                 navOpen={showing}
               />
             ))}
-            {/* <NavItem icon="Profile" text="Profile" active={false} />
-            <NavItem icon="Chats" text="Chats" active={true} />
-            <NavItem icon="Sent" text="Sent" active={false} />
-            <NavItem icon="Draft" text="Draft" active={false} />
-            <NavItem icon="Spam" text="Spam" active={false} />
-            <NavItem icon="Trash" text="Trash" active={false} />
-            <NavItem icon="ConnectApps" text="Connect Apps" active={false} />
-            <div className="lower-nav w-full flex flex-col justify-self-end items-start mt-auto">
-              <NavItem icon="Help" text="Help" active={false} />
-              <NavItem icon="Rate" text="Rate" active={false} />
-              <NavItem icon="About" text="About" active={false} />
-            </div> */}
           </nav>
         )}
       </div>

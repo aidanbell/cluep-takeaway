@@ -21,7 +21,7 @@ export function NavItem({ icon, text, active, key, navOpen }: { icon: string, te
         height={40}
         className="icon m-2"
       />
-      <span className="text-gray-300">{text}</span>
+      <span>{text}</span>
     </div>
   );
 };

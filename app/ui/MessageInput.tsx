@@ -3,11 +3,12 @@
 import { useRef, useState } from "react";
 import { useEffect, useCallback } from "react";
 
-import { PlusIcon, SendMessageIcon } from "./Icons";
+import { PlusIcon, SendMessageIcon, UploadFileIcon } from "./Icons";
 
 export default function MessageInput() {
   const [message, setMessage] = useState("");
   const [isActive, setIsActive] = useState(false);
+  const [isAttachmentOpen, setIsAttachmentOpen] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
 
@@ -24,28 +25,36 @@ export default function MessageInput() {
       className={`send-message w-full rounded-lg border flex flex-row flex-shrink-0 min-h-14 justify-between items-center ${
         isActive ? "border-black text-black" : "border-gray-300 text-gray-300"
       }`}>
-      <PlusIcon
-        size={32}
-        className={`hover:text-black ${
-          isActive ? "text-black" : "text-gray-300"
-        }`}
-      />
-      <textarea
-        rows={1}
-        className="block w-full resize-none border-none focus:outline-none p-2"
-        ref={textAreaRef}
-        onFocus={() => setIsActive(true)}
-        onBlur={() => setIsActive(false)}
-        onChange={handleChange}
-        value={message}
-        placeholder="What's on your mind?"
+        <div className="relative attachment-icon" onClick={() => setIsAttachmentOpen(!isAttachmentOpen)}>
+          <PlusIcon
+            size={32}
+            className={`hover:text-black transition-all  ${
+              isActive ? "text-black" : "text-gray-300"
+            } ${isAttachmentOpen ? "rotate-45" : ""}`}
+          />
+          {isAttachmentOpen && (
+            <div className="attachment-options absolute whitespace-nowrap -top-12 -left-14 flex flex-row bg-white border border-gray-300 rounded-lg p-3">
+              <UploadFileIcon className="text-gray-300 inline-block" size={24} />
+              <span className="ml-2">Upload from your computer</span>
+            </div>
+          )}
+        </div>
+        <textarea
+          rows={1}
+          className="block w-full resize-none border-none focus:outline-none p-2"
+          ref={textAreaRef}
+          onFocus={() => setIsActive(true)}
+          onBlur={() => setIsActive(false)}
+          onChange={handleChange}
+          value={message}
+          placeholder="What's on your mind?"
+          />
+        <SendMessageIcon
+          size={40}
+          className={`hover:text-black ${
+            isActive ? "text-black" : "text-gray-300"
+          }`}
         />
-      <SendMessageIcon
-        size={40}
-        className={`hover:text-black ${
-          isActive ? "text-black" : "text-gray-300"
-        }`}
-      />
     </div>
   );
 }
@@ -83,23 +92,3 @@ function useAutoResizeTextArea(
 
   return;
 }
-
-// Updates the height of a <textarea> when the value changes.
-// const useAutosizeTextArea = (
-//   textAreaRef: HTMLTextAreaElement | null,
-//   parentRef: HTMLDivElement | null,
-//   value: string
-// ) => {
-//   useEffect(() => {
-//     if (textAreaRef && parentRef) {
-//       // We need to reset the height momentarily to get the correct scrollHeight for the textarea
-//       textAreaRef.style.height = "0px";
-//       const scrollHeight = textAreaRef.scrollHeight;
-
-//       // We then set the height directly, outside of the render loop
-//       // Trying to set this with state or a ref will product an incorrect value.
-//       textAreaRef.style.height = scrollHeight + "px";
-//       parentRef.style.height = scrollHeight + "px";
-//     }
-//   }, [textAreaRef, value]);
-// };
