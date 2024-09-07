@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 import { ChevronRightIcon, SideNavCloseIcon } from "@/app/ui/Icons";
 
@@ -11,8 +12,11 @@ export default function Sidenav() {
   const [showing, setShowing] = useState(false);
   const [iconHover, setIconHover] = useState(false);
 
+  const { data: session, status } = useSession();
+  console.log(session);
+
   const navItems = [
-    { icon: "Profile", text: "Profile", active: false },
+    { icon: "Profile", text: session?.user?.email, active: false },
     { icon: "Chats", text: "Chats", active: true },
     { icon: "Sent", text: "Sent", active: false },
     { icon: "Draft", text: "Draft", active: false },

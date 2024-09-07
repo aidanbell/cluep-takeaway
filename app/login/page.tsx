@@ -19,10 +19,9 @@ export default function LoginForm() {
       setErrorMessage(res.error as string);
       console.error(res.error as string);
     } else if (res?.ok) {
-      router.push("/messages");
+      router.push("/");
     }
   }
-
 
   return (
     <main className="flex mx-auto mt-auto mb-0 center items-center justify-center rounded-lg border overflow-hidden border-gray-300">

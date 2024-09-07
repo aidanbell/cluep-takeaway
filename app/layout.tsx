@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import { connectDB } from "@/app/lib/connectDB";
+import Provider from "./provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,9 @@ export default function RootLayout({
   connectDB();
   return (
     <html lang="en">
-      <body className={`${inter.className} h-screen flex flex-col-reverse`}>{children}</body>
+      <Provider>
+        <body className={`${inter.className} h-screen flex flex-col-reverse`}>{children}</body>
+      </Provider>
     </html>
   );
 }

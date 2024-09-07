@@ -8,6 +8,10 @@ export const authConfig: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.AUTH_SECRET,
   providers: [
     Credentials({
       name: "Credentials",
@@ -21,9 +25,7 @@ export const authConfig: NextAuthOptions = {
         await connectDB();
 
         // Find the user by email
-        const user = await User.findOne({ email: credentials?.email }).select(
-          "+password"
-        );
+        const user = await User.findOne({ email: credentials?.email });
 
         if (!user) {
           throw new Error("No user found");

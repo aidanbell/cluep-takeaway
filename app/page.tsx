@@ -1,5 +1,4 @@
 import { TaskButton } from "./ui/Buttons";
-import { SearchIcon, PlusIcon, SendMessageIcon, ChevronRightIcon } from "./ui/Icons";
 import MessageInput from "./ui/MessageInput";
 import SearchBar from "./ui/SearchBar";
 import Sidenav from "./ui/Sidenav";
