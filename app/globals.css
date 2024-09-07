@@ -38,16 +38,17 @@ main {
   padding: 0 70px;
 }
 
-.search-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
 .tooltip {
   height: 30px;
 }
 
+/* .search-icon {
+  right: -14em;
+} */
+
+.search-icon.open {
+  transform: translateX(-40em);
+}
 
 .messages {
   height: 700px;

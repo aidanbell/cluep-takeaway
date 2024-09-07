@@ -37,9 +37,9 @@ export default function MessageInput() {
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
         onChange={handleChange}
-        value={message}>
-        Whats on your mind?
-      </textarea>
+        value={message}
+        placeholder="What's on your mind?"
+        />
       <SendMessageIcon
         size={40}
         className={`hover:text-black ${
