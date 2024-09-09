@@ -4,6 +4,7 @@ import { UserDocument, MessageDocument } from "@/app/lib/definitions";
 
 
 const userSchema = new mongoose.Schema<UserDocument>({
+  googleID: { type: String },
   email: {
     type: String,
     required: true,
@@ -15,9 +16,9 @@ const userSchema = new mongoose.Schema<UserDocument>({
       message: (props: { value: string }) => `${props.value} is not a valid email!`,
     },
   },
-  password: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
+  image: { type: String },
 });
 
 userSchema.virtual("fullname").get(function (this: UserDocument) {

@@ -1,10 +1,8 @@
-import { NextAuthOptions } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import { NextAuthOptions, User } from "next-auth";
 import Google from "next-auth/providers/google";
 import { connectDB } from "@/app/lib/connectDB";
-import { User } from "@/app/lib/models";
-import bcrypt from "bcrypt";
 import { UserDocument } from "./app/lib/definitions";
+import { User as UserModel } from "./app/lib/models";
 
 export const authConfig: NextAuthOptions = {
   pages: {
@@ -15,60 +13,62 @@ export const authConfig: NextAuthOptions = {
   },
   secret: process.env.AUTH_SECRET,
   providers: [
-    Credentials({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials, req) {
-        await connectDB();
-        const user = await User.findOne({ email: credentials?.email });
-
-        if (!user) {
-          throw new Error("No user found");
-        }
-
-        // Compare the password
-        const isValid = await bcrypt.compare(
-          credentials?.password,
-          user.password
-        );
-        if (!isValid) {
-          throw new Error("Invalid password");
-        }
-
-        // Return the user object (excluding the password field)
-        return user.toObject();
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      profile(profile) {
+        return {
+          id: profile.sub,
+          email: profile.email,
+          firstName: profile.given_name,
+          lastName: profile.family_name,
+          image: profile.picture,
+        };
       },
     }),
-    // Google({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    //   profile(profile) {
-    //     return {
-    //       id: profile.id,
-    //       email: profile.email,
-    //       name: profile.name,
-    //       image: profile.picture,
-    //     };
-    //   }
-    // }),
   ],
   callbacks: {
-    async jwt({token, user}) {
+    async signIn({ user, account, profile }) {
+      console.log("SIGN IN:");
+      console.log("USER: ", user);
+      console.log("ACCOUNT: ", account);
+      console.log("PROFILE: ", profile);
+      // First check for user
+      await connectDB();
+      const existingUser = await UserModel.findOne({ googleID: user.id });
+      if (existingUser) {
+        return true;
+      } else {
+        // Create user
+        const newUser = await UserModel.create({
+          googleID: user.id,
+          email: user.email,
+          firstName: (user as UserDocument).firstName,
+          lastName: (user as UserDocument).lastName,
+          image: user.image,
+        });
+        console.log("NEW USER: ", newUser);
+        return true;
+      }
+    },
+    async jwt({
+      token,
+      user,
+    }: {
+      token: any;
+      user: User;
+    }) {
       if (user) {
-        const { firstName, lastName } = user as UserDocument;
-        token.fullName = `${firstName} ${lastName}`;
+        token.name = `${(user as UserDocument).firstName} ${
+          (user as UserDocument).lastName
+        }`;
       }
       return token;
     },
-    async session({ session, token, user }) {
-      // Attach the user info to the session object
+    async session({ session, token }) {
       if (session.user) {
-        session.user.name = token.fullName as string;
+        session.user.name = token.name;
       }
-      
       return session;
     },
   },
