@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export interface UserDocument extends Document {
   id: string;
@@ -8,7 +8,7 @@ export interface UserDocument extends Document {
   lastName: string;
   fullname: string;
   image: string;
-  messages: MessageDocument[];
+  messages: Types.DocumentArray<MessageDocument>;
 }
 
 export interface MessageDocument extends Document {
