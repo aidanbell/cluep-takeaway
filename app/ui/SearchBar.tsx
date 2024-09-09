@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { CloseIcon, SearchIcon } from "./Icons";
+import { set } from "mongoose";
 
 // interface SearchBarProps {
 //   handleSearch: (query: string) => void;
@@ -11,14 +12,20 @@ import { CloseIcon, SearchIcon } from "./Icons";
 
 export default function SearchBar() {
   const [isActive, setIsActive] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  function handleChange(query: string) {
-    setSearchQuery(query);
+  function handleClearSearch() {
+    const params = new URLSearchParams(searchParams || "");
+    if (!params.has("search")) {
+      return setIsActive(false);
+    }
+    if (inputRef.current) inputRef.current.value = "";
+    params.delete("search");
+    replace(`${pathname}?${params.toString()}`);
   }
 
   const handleSearch = useDebouncedCallback((query: string) => {
@@ -52,18 +59,18 @@ export default function SearchBar() {
       {isActive && (
         <>
         <input
+          ref={inputRef}
           type="text"
           autoFocus
-          className="relative w-full h-full bg-transparent pl-12 pr-4 border-none focus:outline-none text-white placeholder-white"
+          className="relative h-full flex-grow bg-transparent pl-12 pr-4 border-none focus:outline-none text-white placeholder-white"
           onChange={(e) => handleSearch(e.target.value)} // Pass the search query
-          onBlur={() => setIsActive(false)}
-          defaultValue={searchParams.get("search") || ""}
+          defaultValue={searchParams?.get("search") || ""}
           placeholder="Search..."
           />
           <CloseIcon
             size={24}
-            className="absolute right-4 text-gray-300 hover:text-black cursor-pointer"
-            onClick={() => setSearchQuery("")}
+            className="transform rotate-45 z-50 absolute right-4 text-gray-600 hover:text-black cursor-pointer"
+            onClick={handleClearSearch}
           />
         </>
       )}

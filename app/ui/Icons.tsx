@@ -112,9 +112,10 @@ export function ChevronRightIcon({ className, size }: { className: string, size:
   );
 }
 
-export function CloseIcon({ className, size }: { className: string, size: number }) {
+export function CloseIcon({ className, size, onClick }: { className: string, size: number, onClick: () => void }) {
   return (
     <svg
+      onClick={onClick}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
       height={size}
