@@ -119,10 +119,10 @@ export function CloseIcon({ className, size }: { className: string, size: number
       xmlns="http://www.w3.org/2000/svg"
       height={size}
       width={size}
-      viewBox="0 0 24 24"
-      fill="currentColor">
+      fill="currentColor"
+      viewBox="0 0 24 24">
       <path d="M0 0h24v24H0V0z" fill="none" />
-      <path d="M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z" />
+      <path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z" />
     </svg>
   );
 };

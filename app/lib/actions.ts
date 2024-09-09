@@ -3,10 +3,9 @@ import { User } from "@/app/lib/models";
 import { connectDB } from "@/app/lib/connectDB";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth.config";
-import { MessageDocument } from "./definitions";
 import { revalidatePath } from "next/cache";
 
-export const getAllMessages = async () => {
+export const getMessages = async (query:string) => {
   try {
     await connectDB();
     const session = await getServerSession(authConfig);
@@ -15,6 +14,12 @@ export const getAllMessages = async () => {
     const sortedMessages = userDoc?.messages.slice().sort((a, b) => {
       return b.createdAt.getTime() - a.createdAt.getTime();
     });
+    if (query) {
+      const filteredMessages = sortedMessages?.filter((message) => {
+        return message.message.toLowerCase().includes(query.toLowerCase());
+      });
+      return filteredMessages
+    }
     return sortedMessages;
   } catch (err) {
     console.error(err);

@@ -1,16 +1,32 @@
 "use client";
+import { useState, useEffect } from "react";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
+import { CloseIcon, SearchIcon } from "./Icons";
 
-import { useState } from "react";
-import { SearchIcon } from "./Icons";
+// interface SearchBarProps {
+//   handleSearch: (query: string) => void;
+//   query: string
+// }
 
 export default function SearchBar() {
-  const [search, setSearch] = useState("");
   const [isActive, setIsActive] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target?.value;
-    setSearch(val);
-  };
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  function handleChange(query: string) {
+    setSearchQuery(query);
+  }
+
+  const handleSearch = useDebouncedCallback((query: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("search", query);
+    if (!query) params.delete("search");
+    replace(`${pathname}?${params.toString()}`);
+  }, 500);
 
   return (
     <div className="relative w-full h-12 my-4 flex items-center">
@@ -34,15 +50,22 @@ export default function SearchBar() {
 
       {/* Input field, only visible when active */}
       {isActive && (
+        <>
         <input
           type="text"
           autoFocus
           className="relative w-full h-full bg-transparent pl-12 pr-4 border-none focus:outline-none text-white placeholder-white"
-          onChange={handleChange}
+          onChange={(e) => handleSearch(e.target.value)} // Pass the search query
           onBlur={() => setIsActive(false)}
-          value={search}
+          defaultValue={searchParams.get("search") || ""}
           placeholder="Search..."
-        />
+          />
+          <CloseIcon
+            size={24}
+            className="absolute right-4 text-gray-300 hover:text-black cursor-pointer"
+            onClick={() => setSearchQuery("")}
+          />
+        </>
       )}
     </div>
   );

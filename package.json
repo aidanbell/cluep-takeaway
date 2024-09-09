@@ -15,7 +15,8 @@
     "next": "15.0.0-canary.144",
     "next-auth": "^4.24.7",
     "react": "19.0.0-rc-a03254bc-20240905",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "use-debounce": "^10.0.3"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
