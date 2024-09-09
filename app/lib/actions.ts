@@ -4,6 +4,7 @@ import { connectDB } from "@/app/lib/connectDB";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth.config";
 import { MessageDocument } from "./definitions";
+import { revalidatePath } from "next/cache";
 
 export const getAllMessages = async () => {
   try {
@@ -11,8 +12,10 @@ export const getAllMessages = async () => {
     const session = await getServerSession(authConfig);
     if (!session) throw new Error("Unauthorized");
     const userDoc = await User.findById(session.user?.id);
-    console.log("USER DOC: ", userDoc);
-    return userDoc?.messages;
+    const sortedMessages = userDoc?.messages.slice().sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+    return sortedMessages;
   } catch (err) {
     console.error(err);
     return [];
@@ -29,6 +32,7 @@ export const createMessage = async (message: string) => {
     user.messages.push({message});
     await user.save();
     console.log("MESSAGE CREATED: ", user.messages);
+    revalidatePath("/");
     return true;
   } catch (err) {
     console.error(err);

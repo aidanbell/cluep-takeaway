@@ -13,4 +13,5 @@ export interface UserDocument extends Document {
 
 export interface MessageDocument extends Document {
   message: string;
+  createdAt: Date;
 }

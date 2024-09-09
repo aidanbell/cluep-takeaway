@@ -13,18 +13,41 @@ export default function MessageInput() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
 
-  useAutoResizeTextArea(textAreaRef, parentRef);
+  // useAutoResizeTextArea(textAreaRef, parentRef);
+
+  useEffect(() => {
+    resizeTextArea();
+  }, [message]);
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const val = e.target?.value;
-
     setMessage(val);
   };
 
+  const resizeTextArea = () => {
+    if (textAreaRef.current && parentRef.current) {
+      if (message.trim() === "") {
+        textAreaRef.current.style.height = "auto";
+        parentRef.current.style.height = "55px";
+        return;
+      }
+      const textarea = textAreaRef.current;
+      const parentDiv = parentRef.current;
+      const rows = (textarea.scrollHeight - 40) / 24 + 1;
+      if (rows >= 6) return;
+      textarea.style.height = "auto";
+      const newHeight = textarea.scrollHeight;
+      textarea.style.height = `${newHeight}px`;
+      const minHeight = 55;
+      parentDiv.style.height = `${Math.max(newHeight + 10, minHeight)}px`; // Set the parent div height to match the textarea height
+    }
+  }
+
   async function sendMessage() {
     if (message.trim() === "") return;
-    await createMessage(message, "user");
+    await createMessage(message);
     setMessage("");
+    resizeTextArea();
   }
 
   return (
