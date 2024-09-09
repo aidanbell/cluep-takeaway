@@ -13,8 +13,6 @@ export default function MessageInput() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
 
-  // useAutoResizeTextArea(textAreaRef, parentRef);
-
   useEffect(() => {
     resizeTextArea();
   }, [message]);
@@ -90,38 +88,4 @@ export default function MessageInput() {
         </button>
     </div>
   );
-}
-
-
-function useAutoResizeTextArea(
-  textareaRef: React.RefObject<HTMLTextAreaElement>,
-  parentRef: React.RefObject<HTMLDivElement>
-) {
-  const resizeTextArea = useCallback(() => {
-    if (textareaRef.current && parentRef.current) {
-      const textarea = textareaRef.current;
-      const parentDiv = parentRef.current;
-      const rows = (textarea.scrollHeight - 40) / 24 + 1;
-      if (rows >= 6) return;
-      textarea.style.height = "auto";
-      const newHeight = textarea.scrollHeight;
-      textarea.style.height = `${newHeight}px`;
-      const minHeight = 55;
-      parentDiv.style.height = `${Math.max(newHeight + 10, minHeight)}px`; // Set the parent div height to match the textarea height
-    }
-  }, [textareaRef, parentRef]);
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      resizeTextArea();
-      textarea.addEventListener("input", resizeTextArea);
-
-      return () => {
-        textarea.removeEventListener("input", resizeTextArea);
-      };
-    }
-  }, [textareaRef, resizeTextArea]);
-
-  return;
 }

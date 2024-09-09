@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 
-const protectedRoutes = ["/messages"];
+const protectedRoutes = ["/"];
 
 export async function middleware(req: NextRequest) {
   // Get the token from the request
@@ -14,9 +14,9 @@ export async function middleware(req: NextRequest) {
   }
   
   // If the token is present and the user is trying to access the login page, redirect to the home page
-  if (token && !protectedRoutes.includes(req.nextUrl.pathname)) {
+  if (token && req.nextUrl.pathname === "/login") {
     console.log("USER REDIRECTING")
-    return NextResponse.redirect(new URL("/messages", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   // Continue to the next middleware
@@ -24,5 +24,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/messages"],
+  matcher: ["/", "/login"],
 }

@@ -20,10 +20,6 @@
   box-sizing: border-box;
 }
 
-body {
-
-}
-
 main {
   height: 827px;
   width: 765px;
@@ -42,17 +38,12 @@ main {
   height: 30px;
 }
 
-/* .search-icon {
-  right: -14em;
-} */
-
 .search-icon.open {
   transform: translateX(-40em);
 }
 
 .messages {
   height: 700px;
-  /* width: 610px; */
 }
 
 nav .open {
@@ -85,10 +76,4 @@ nav .nav-item:nth-last-child(4) {
 .attachment-tooltip {
   top: -2.25em;
   left: -2em;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
 }
