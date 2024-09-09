@@ -34,7 +34,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log(BasierCircle)
   return (
     <html lang="en">
       <Provider>

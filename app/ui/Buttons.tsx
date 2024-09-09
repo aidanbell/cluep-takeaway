@@ -8,11 +8,14 @@ export function TaskButton({text}: {text: string}) {
   );
 };
 
-export function NavItem({ icon, text, active, key, navOpen }: { icon: string, text: string, active: boolean, key: number, navOpen: boolean }) {
+export function NavItem({ icon, text, active, navOpen, action }: { icon: string, text: string, active: boolean, navOpen: boolean, action: (item: string) => void }) {
   return (
     <div
-      className={`nav-item transform opacity-0 -translate-x-full transition-transform transition-opacity duration-500 ease-out delay-500 flex flex-row items-center m-1 pr-2 hover:rounded-lg hover:bg-gray-800 ${
-        active ? "bg-gray-500 rounded-lg" : "bg-black"
+      onClick={() => action(icon)}
+      className={`nav-item transform opacity-0 -translate-x-full transition-transform transition-opacity duration-500 ease-out delay-500 flex flex-row items-center m-1 pr-2 ${
+        active
+          ? "bg-gray-500 rounded-lg"
+          : "bg-black hover:rounded-lg hover:bg-gray-800"
       } ${navOpen ? "open" : ""}`}>
       <Image
         src={`/Icons/${icon}.png`}

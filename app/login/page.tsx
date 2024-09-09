@@ -1,12 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { GoogleIcon } from "../ui/Icons";
 
 export default function LoginForm() {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <main className="flex flex-col mx-auto mt-auto mb-0 center items-center justify-center rounded-lg border overflow-hidden border-gray-300">

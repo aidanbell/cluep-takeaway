@@ -11,20 +11,21 @@ import { ToolTip } from "@/app/ui/Icons";
 export default function Sidenav() {
   const [showing, setShowing] = useState(false);
   const [iconHover, setIconHover] = useState(false);
+  const [activeItem, setActiveItem] = useState("Chats");
 
   const { data: session, status } = useSession();
 
   const navItems = [
-    { icon: "Profile", text: session?.user?.name, active: false },
-    { icon: "Chats", text: "Chats", active: true },
-    { icon: "Sent", text: "Sent", active: false },
-    { icon: "Draft", text: "Draft", active: false },
-    { icon: "Spam", text: "Spam", active: false },
-    { icon: "Trash", text: "Trash", active: false },
-    { icon: "ConnectApps", text: "Connect Apps", active: false },
-    { icon: "Help", text: "Help", active: false },
-    { icon: "Rate", text: "Rate", active: false },
-    { icon: "About", text: "About", active: false },
+    { icon: "Profile", text: session?.user?.name },
+    { icon: "Chats", text: "Chats" },
+    { icon: "Sent", text: "Sent" },
+    { icon: "Draft", text: "Draft" },
+    { icon: "Spam", text: "Spam" },
+    { icon: "Trash", text: "Trash" },
+    { icon: "ConnectApps", text: "Connect Apps" },
+    { icon: "Help", text: "Help" },
+    { icon: "Rate", text: "Rate" },
+    { icon: "About", text: "About"},
   ];
 
   function handleSideNav() {
@@ -37,6 +38,10 @@ export default function Sidenav() {
         ? "translateX(0)"
         : "translateX(250px)";
     }
+  }
+
+  function handleActiveItem(item: string) {
+    setActiveItem(item);
   }
 
   return (
@@ -66,13 +71,14 @@ export default function Sidenav() {
               )}
           </div>
         {showing && (
-          <nav className={`overflow-hidden flex flex-col h-full transition-color duration-200 ${iconHover ? "text-gray-500" : "text-gray-300"}`}>
+          <nav className={`overflow-hidden flex flex-col h-full transition-color duration-200 ${iconHover ? "text-gray-600" : "text-gray-300"}`}>
             {navItems.map((item, index) => (
               <NavItem
                 key={index}
+                action={handleActiveItem}
                 icon={item.icon}
                 text={item.text || ''}
-                active={item.active}
+                active={item.icon === activeItem}
                 navOpen={showing}
               />
             ))}
