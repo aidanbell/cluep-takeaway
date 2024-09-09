@@ -18,7 +18,7 @@ export const authConfig: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
       profile(profile) {
         return {
-          id: profile.sub,
+          id: profile.sub, // sub is the googleID
           email: profile.email,
           firstName: profile.given_name,
           lastName: profile.family_name,
@@ -29,16 +29,10 @@ export const authConfig: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      console.log("SIGN IN:");
-      console.log("USER: ", user);
-      console.log("ACCOUNT: ", account);
-      console.log("PROFILE: ", profile);
       // First check for user
       await connectDB();
       const existingUser = await UserModel.findOne({ googleID: user.id });
-      if (existingUser) {
-        return true;
-      } else {
+      if (!existingUser) {
         // Create user
         const newUser = await UserModel.create({
           googleID: user.id,
@@ -48,17 +42,16 @@ export const authConfig: NextAuthOptions = {
           image: user.image,
         });
         console.log("NEW USER: ", newUser);
-        return true;
       }
+      return true;
     },
-    async jwt({
-      token,
-      user,
-    }: {
-      token: any;
-      user: User;
-    }) {
-      if (user) {
+    async jwt({ token,user }: { token: any; user: User; }) {
+      if (token.id && token.name) return token;
+
+      const dbUser = await UserModel.findOne({ googleID: user.id });
+      console.log(dbUser)
+      if (dbUser) {
+        token.id = dbUser._id;
         token.name = `${(user as UserDocument).firstName} ${
           (user as UserDocument).lastName
         }`;
@@ -68,7 +61,9 @@ export const authConfig: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.name = token.name;
+        session.user.id = token.id as string;
       }
+      console.log("SESSION: ", session);
       return session;
     },
   },

@@ -8,12 +8,9 @@ export interface UserDocument extends Document {
   lastName: string;
   fullname: string;
   image: string;
+  messages: MessageDocument[];
 }
 
 export interface MessageDocument extends Document {
-  id: string;
-  user: UserDocument;
   message: string;
-  createdAt: Date;
-  updatedAt: Date;
 }

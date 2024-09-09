@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useEffect, useCallback } from "react";
+import { createMessage } from "@/app/lib/actions";
 
 import { PlusIcon, SendMessageIcon, UploadFileIcon } from "./Icons";
 
@@ -14,11 +15,18 @@ export default function MessageInput() {
 
   useAutoResizeTextArea(textAreaRef, parentRef);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const val = e.target?.value;
 
     setMessage(val);
   };
+
+  async function sendMessage() {
+    if (message.trim() === "") return;
+    await createMessage(message, "user");
+    setMessage("");
+  }
+
   return (
     <div
       ref={parentRef}
@@ -49,12 +57,14 @@ export default function MessageInput() {
           value={message}
           placeholder="What's on your mind?"
           />
-        <SendMessageIcon
-          size={40}
-          className={`hover:text-black ${
-            isActive ? "text-black" : "text-gray-300"
-          }`}
-        />
+        <button onClick={sendMessage} className="send-message-icon">
+          <SendMessageIcon
+            size={40}
+            className={`hover:text-black ${
+              isActive ? "text-black" : "text-gray-300"
+            }`}
+          />
+        </button>
     </div>
   );
 }
