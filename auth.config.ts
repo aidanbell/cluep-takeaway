@@ -1,8 +1,10 @@
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import { connectDB } from "@/app/lib/connectDB";
 import { User } from "@/app/lib/models";
 import bcrypt from "bcrypt";
+import { UserDocument } from "./app/lib/definitions";
 
 export const authConfig: NextAuthOptions = {
   pages: {
@@ -20,11 +22,7 @@ export const authConfig: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // Connect to the database
-        console.log("CALLING AUTHORIZE");
         await connectDB();
-
-        // Find the user by email
         const user = await User.findOne({ email: credentials?.email });
 
         if (!user) {
@@ -44,11 +42,33 @@ export const authConfig: NextAuthOptions = {
         return user.toObject();
       },
     }),
+    // Google({
+    //   clientId: process.env.GOOGLE_CLIENT_ID,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    //   profile(profile) {
+    //     return {
+    //       id: profile.id,
+    //       email: profile.email,
+    //       name: profile.name,
+    //       image: profile.picture,
+    //     };
+    //   }
+    // }),
   ],
   callbacks: {
+    async jwt({token, user}) {
+      if (user) {
+        const { firstName, lastName } = user as UserDocument;
+        token.fullName = `${firstName} ${lastName}`;
+      }
+      return token;
+    },
     async session({ session, token, user }) {
       // Attach the user info to the session object
-      session.user = token;
+      if (session.user) {
+        session.user.name = token.fullName as string;
+      }
+      
       return session;
     },
   },

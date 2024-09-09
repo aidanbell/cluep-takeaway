@@ -13,10 +13,9 @@ export default function Sidenav() {
   const [iconHover, setIconHover] = useState(false);
 
   const { data: session, status } = useSession();
-  console.log(session);
 
   const navItems = [
-    { icon: "Profile", text: session?.user?.email, active: false },
+    { icon: "Profile", text: session?.user?.name, active: false },
     { icon: "Chats", text: "Chats", active: true },
     { icon: "Sent", text: "Sent", active: false },
     { icon: "Draft", text: "Draft", active: false },
@@ -47,11 +46,7 @@ export default function Sidenav() {
           showing ? "w-[180px]" : "w-0"
         }`}>
           <div
-            onClick={() => {
-              console.log("clicked");
-              console.log(showing);
-              setShowing(!showing);
-            }}
+            onClick={() => setShowing(!showing)}
             onMouseEnter={() => setIconHover(true)}
             onMouseLeave={() => setIconHover(false)}
             className={`group sidebar-action-icon cursor-pointer absolute top-1/2 z-10 transition-translate duration-500 ease-in-out w-6 h-6 ${
@@ -76,7 +71,7 @@ export default function Sidenav() {
               <NavItem
                 key={index}
                 icon={item.icon}
-                text={item.text}
+                text={item.text || ''}
                 active={item.active}
                 navOpen={showing}
               />
