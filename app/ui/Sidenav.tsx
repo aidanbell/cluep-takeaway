@@ -5,8 +5,7 @@ import { useSession } from "next-auth/react";
 
 import { ChevronRightIcon, SideNavCloseIcon } from "@/app/ui/Icons";
 
-import { NavItem } from "./Buttons";
-import { ToolTip } from "@/app/ui/Icons";
+import { NavItem, ProfileButton } from "./Buttons";
 
 export default function Sidenav() {
   const [showing, setShowing] = useState(false);
@@ -72,16 +71,29 @@ export default function Sidenav() {
           </div>
         {showing && (
           <nav className={`overflow-hidden flex flex-col h-full transition-color duration-200 ${iconHover ? "text-gray-600" : "text-gray-300"}`}>
-            {navItems.map((item, index) => (
-              <NavItem
-                key={index}
-                action={handleActiveItem}
-                icon={item.icon}
-                text={item.text || ''}
-                active={item.icon === activeItem}
-                navOpen={showing}
-              />
-            ))}
+            {navItems.map((item, index) => {
+              if (index > 0) {
+                return(
+                  <NavItem
+                    key={index}
+                    action={handleActiveItem}
+                    icon={item.icon}
+                    text={item.text || ''}
+                    active={item.icon === activeItem}
+                    navOpen={showing}
+                  />
+                );
+              } else {
+                return(
+                  <ProfileButton
+                    key={index}
+                    name={item.text || ''}
+                    image={session?.user?.image || ''}
+                    navOpen={showing}
+                  />
+                );
+              }
+            })}
           </nav>
         )}
       </div>

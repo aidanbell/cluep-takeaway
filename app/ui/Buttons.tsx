@@ -1,4 +1,7 @@
+"use client";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
+import { useState } from "react";
 
 export function TaskButton({text}: {text: string}) {
   return (
@@ -25,6 +28,34 @@ export function NavItem({ icon, text, active, navOpen, action }: { icon: string,
         className="icon m-2"
       />
       <span>{text}</span>
+    </div>
+  );
+};
+
+export function ProfileButton({ name, image, navOpen }: { name: string, image: string, navOpen: boolean }) {
+  const [active, setActive] = useState(false);
+  return (
+    <div
+    onClick={() => {
+      if (active) {
+        signOut();
+      } else {
+        setActive(!active);
+      }
+    }}
+      className={`nav-item transform opacity-0 -translate-x-full transition-transform transition-opacity duration-500 ease-out delay-500 flex flex-row items-center m-1 pr-2 ${
+        active
+          ? "bg-gray-500 rounded-lg"
+          : "bg-black hover:rounded-lg hover:bg-gray-800"
+      } ${navOpen ? "open" : ""}`}>
+      <Image
+        src={image}
+        alt={name}
+        width={40}
+        height={40}
+        className="rounded-lg m-2 cursor-pointer"
+      />
+      <span>{active ? "Log out?" : name}</span>
     </div>
   );
 };
