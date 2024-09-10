@@ -18,8 +18,8 @@ export const getMessages = async (query:string) => {
       const filteredMessages = sortedMessages?.filter((message) => {
         return message.message.toLowerCase().includes(query.toLowerCase());
       });
-      return filteredMessages
-    }
+      return filteredMessages;
+    };
     return sortedMessages;
   } catch (err) {
     console.error(err);
