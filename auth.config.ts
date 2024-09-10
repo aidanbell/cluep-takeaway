@@ -29,18 +29,23 @@ export const authConfig: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      await connectDB();
-      const existingUser = await UserModel.findOne({ googleID: user.id });
-      if (!existingUser) {
-        const newUser = await UserModel.create({
-          googleID: user.id,
-          email: user.email,
-          firstName: (user as UserDocument).firstName,
-          lastName: (user as UserDocument).lastName,
-          image: user.image,
-        });
+      try {
+        await connectDB();
+        const existingUser = await UserModel.findOne({ googleID: user.id });
+        if (!existingUser) {
+          const newUser = await UserModel.create({
+            googleID: user.id,
+            email: user.email,
+            firstName: (user as UserDocument).firstName,
+            lastName: (user as UserDocument).lastName,
+            image: user.image,
+          });
+        }
+        return true;
+      } catch (error) {
+        console.error(error);
+        return false;
       }
-      return true;
     },
     async jwt({ token,user }: { token: any; user: User; }) {
       if (token.id && token.name) return token;
@@ -54,6 +59,7 @@ export const authConfig: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      console.log("making session");
       if (session.user) {
         session.user.name = token.name;
         session.user.id = token.id as string;
