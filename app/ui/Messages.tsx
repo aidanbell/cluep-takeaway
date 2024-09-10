@@ -5,7 +5,7 @@ export default async function Messages({query}: {query: string}) {
   const messages = await getMessages(query);
   
   return (
-    <div className="messages w-full flex flex-col-reverse items-end mb-3 overflow-y-scroll">
+    <div role="messages" className="messages w-full flex flex-col-reverse items-end mb-3 overflow-y-scroll">
       {messages?.map((message, idx) => (
         <>
           <div

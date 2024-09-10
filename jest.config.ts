@@ -5,7 +5,7 @@ module.exports = {
     "^.+\\.(js|jsx|ts|tsx)$": "babel-jest", // To handle JavaScript and JSX files as well
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-  setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
+  setupFilesAfterEnv: ["<rootDir>/setupTests.ts", "<rootDir>/setupMongoTest.ts"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
     "^jose": require.resolve("jose"),

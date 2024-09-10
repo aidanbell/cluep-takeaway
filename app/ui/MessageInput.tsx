@@ -78,7 +78,7 @@ export default function MessageInput() {
           value={message}
           placeholder="What's on your mind?"
           />
-        <button onClick={sendMessage} className="send-message-icon">
+        <button onClick={sendMessage} name="send" className="send-message-icon">
           <SendMessageIcon
             size={40}
             className={`hover:text-black ${

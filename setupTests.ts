@@ -1,6 +1,3 @@
-import "@testing-library/jest-dom";
 import { TextEncoder, TextDecoder } from "util";
-import "react";
-
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
+import "@testing-library/jest-dom";
+Object.assign(global, { TextEncoder, TextDecoder });
