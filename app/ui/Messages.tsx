@@ -26,14 +26,3 @@ export default async function Messages({query}: {query: string}) {
     </div>
   );
 }
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const query = (context.query.search as string) || "";
-//   const messages = await getMessages(query);
-//   console.log(messages);
-//   return {
-//     props: {
-//       messages,
-//     },
-//   };
-// };

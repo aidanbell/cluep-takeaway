@@ -36,7 +36,6 @@ export const createMessage = async (message: string) => {
     if (!user) throw new Error("User not found");
     user.messages.push({message});
     await user.save();
-    console.log("MESSAGE CREATED: ", user.messages);
     revalidatePath("/");
     return true;
   } catch (err) {

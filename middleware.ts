@@ -15,7 +15,6 @@ export async function middleware(req: NextRequest) {
   
   // If the token is present and the user is trying to access the login page, redirect to the home page
   if (token && req.nextUrl.pathname === "/login") {
-    console.log("USER REDIRECTING")
     return NextResponse.redirect(new URL("/", req.url));
   }
 

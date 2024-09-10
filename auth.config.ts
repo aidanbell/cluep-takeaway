@@ -29,11 +29,9 @@ export const authConfig: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      // First check for user
       await connectDB();
       const existingUser = await UserModel.findOne({ googleID: user.id });
       if (!existingUser) {
-        // Create user
         const newUser = await UserModel.create({
           googleID: user.id,
           email: user.email,
@@ -41,15 +39,12 @@ export const authConfig: NextAuthOptions = {
           lastName: (user as UserDocument).lastName,
           image: user.image,
         });
-        console.log("NEW USER: ", newUser);
       }
       return true;
     },
     async jwt({ token,user }: { token: any; user: User; }) {
       if (token.id && token.name) return token;
-
       const dbUser = await UserModel.findOne({ googleID: user.id });
-      console.log(dbUser)
       if (dbUser) {
         token.id = dbUser._id;
         token.name = `${(user as UserDocument).firstName} ${
@@ -63,7 +58,6 @@ export const authConfig: NextAuthOptions = {
         session.user.name = token.name;
         session.user.id = token.id as string;
       }
-      console.log("SESSION: ", session);
       return session;
     },
   },

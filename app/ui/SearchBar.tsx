@@ -1,14 +1,8 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { CloseIcon, SearchIcon } from "./Icons";
-import { set } from "mongoose";
-
-// interface SearchBarProps {
-//   handleSearch: (query: string) => void;
-//   query: string
-// }
 
 export default function SearchBar() {
   const [isActive, setIsActive] = useState(false);
@@ -37,13 +31,11 @@ export default function SearchBar() {
 
   return (
     <div className="relative w-full h-12 my-4 flex items-center">
-      {/* Search bar background container */}
       <div
         className={`absolute h-full w-full origin-right transition-transform duration-500 ease-in-out rounded-full bg-gray-300 ${
           isActive ? "scale-x-100" : "scale-x-0"
         }`}></div>
 
-      {/* Search icon */}
       <div
         className={`search-icon absolute transition-transform transition-color duration-500 ease-in-out -right-14 ${
           isActive ? "transform open" : "transform translate-x-0"
@@ -55,7 +47,6 @@ export default function SearchBar() {
         />
       </div>
 
-      {/* Input field, only visible when active */}
       {isActive && (
         <>
         <input
